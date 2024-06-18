@@ -8,15 +8,15 @@ x0 = np.random.randn(d)
 iterations = 1000
 
 def main():
+    
     A = np.zeros((5, 100))
     for i in range(5):
         for j in range(100):
-            A[i, j] = 10 ** (i - j / 20.0)
+            A[i, j] = 10 ** (i - j)
     
     print(f"Condición de A: {condition_number(A)}")
 
-    F, grad_F, H_F, F2, grad_F2, s, delta2, cost_svd, norm_svd, deltas2 = initialize_problem(A)
-
+    F, grad_F, F2, grad_F2, s, delta2, cost_svd, norm_svd, deltas2 = initialize_problem(A)
 
     plot_convergence_cost(x0, grad_F, F, s, iterations, delta2, F2, grad_F2, cost_svd)
     plot_convergence_norm(x0, grad_F, s, iterations, delta2, grad_F2, norm_svd)
@@ -29,7 +29,7 @@ def main():
     
     print(f"Condición de A: {condition_number(A)}")
 
-    F, grad_F, H_F, F2, grad_F2, s, delta2, cost_svd, norm_svd, deltas2 = initialize_problem(A)
+    F, grad_F, F2, grad_F2, s, delta2, cost_svd, norm_svd, deltas2 = initialize_problem(A)
 
     plot_convergence_cost(x0, grad_F, F, s, iterations, delta2, F2, grad_F2, cost_svd)
     plot_convergence_norm(x0, grad_F, s, iterations, delta2, grad_F2, norm_svd)
@@ -39,7 +39,7 @@ def main():
     A = np.random.randn(n, d)
     print(f"Condición de A: {condition_number(A)}")
 
-    F, grad_F, H_F, F2, grad_F2, s, delta2, cost_svd, norm_svd, deltas2 = initialize_problem(A)
+    F, grad_F, F2, grad_F2, s, delta2, cost_svd, norm_svd, deltas2 = initialize_problem(A)
 
     plot_convergence_cost(x0, grad_F, F, s, iterations, delta2, F2, grad_F2, cost_svd)
     plot_convergence_norm(x0, grad_F, s, iterations, delta2, grad_F2, norm_svd)
@@ -68,9 +68,7 @@ def initialize_problem(A):
     cost_svd = F(x_svd)
     norm_svd = np.linalg.norm(x_svd)
 
-    return F, grad_F, H_F, F2, grad_F2, s, delta2, cost_svd, norm_svd, deltas2
-    
-    
+    return F, grad_F, F2, grad_F2, s, delta2, cost_svd, norm_svd, deltas2
 
 def condition_number(A):
     singular_values = np.linalg.svd(A, compute_uv=False)
@@ -189,9 +187,9 @@ def plot_cost_with_different_delta2(x0, grad_F2, F2, s, iterations, range_delta2
         costs.append(F2(x_reg, delta2))
 
     plt.figure(figsize=(10, 6))
-    plt.plot(range_delta2, costs)
     plt.xscale("log")
     plt.yscale("log")
+    plt.bar(range_delta2, costs)
     plt.xlabel('Valor de delta^2')
     plt.ylabel('Costo')
     plt.title('Costo en función del valor de delta^2')
