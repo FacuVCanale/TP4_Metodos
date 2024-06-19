@@ -18,23 +18,23 @@ def main():
 
     F, grad_F, F2, grad_F2, s, delta2, cost_svd, norm_svd, deltas2 = initialize_problem(A)
 
-    plot_convergence_cost(x0, grad_F, F, s, iterations, delta2, F2, grad_F2, cost_svd)
-    plot_convergence_norm(x0, grad_F, s, iterations, delta2, grad_F2, norm_svd)
-    plot_convergence_x(x0, grad_F, s, iterations, delta2, grad_F2)
-    plot_cost_with_different_delta2(x0, grad_F2, F2, s, iterations, deltas2)
+    # plot_convergence_cost(x0, grad_F, F, s, iterations, delta2, F2, grad_F2, cost_svd)
+    # plot_convergence_norm(x0, grad_F, s, iterations, delta2, grad_F2, norm_svd)
+    # plot_convergence_x(x0, grad_F, s, iterations, delta2, grad_F2)
+    # plot_cost_with_different_delta2(x0, grad_F2, F2, s, iterations, deltas2)
 
     I = np.eye(n)
     zeros = np.zeros((n, d - n))
     A = np.hstack((I, zeros))
     
-    print(f"Condición de A: {condition_number(A)}")
+    # print(f"Condición de A: {condition_number(A)}")
 
     F, grad_F, F2, grad_F2, s, delta2, cost_svd, norm_svd, deltas2 = initialize_problem(A)
 
     plot_convergence_cost(x0, grad_F, F, s, iterations, delta2, F2, grad_F2, cost_svd)
-    plot_convergence_norm(x0, grad_F, s, iterations, delta2, grad_F2, norm_svd)
-    plot_convergence_x(x0, grad_F, s, iterations, delta2, grad_F2)
-    plot_cost_with_different_delta2(x0, grad_F2, F2, s, iterations, deltas2)
+    # plot_convergence_norm(x0, grad_F, s, iterations, delta2, grad_F2, norm_svd)
+    # plot_convergence_x(x0, grad_F, s, iterations, delta2, grad_F2)
+    # plot_cost_with_different_delta2(x0, grad_F2, F2, s, iterations, deltas2)
    
     A = np.random.randn(n, d)
     print(f"Condición de A: {condition_number(A)}")
@@ -42,9 +42,9 @@ def main():
     F, grad_F, F2, grad_F2, s, delta2, cost_svd, norm_svd, deltas2 = initialize_problem(A)
 
     plot_convergence_cost(x0, grad_F, F, s, iterations, delta2, F2, grad_F2, cost_svd)
-    plot_convergence_norm(x0, grad_F, s, iterations, delta2, grad_F2, norm_svd)
-    plot_convergence_x(x0, grad_F, s, iterations, delta2, grad_F2)
-    plot_cost_with_different_delta2(x0, grad_F2, F2, s, iterations, deltas2)
+    # plot_convergence_norm(x0, grad_F, s, iterations, delta2, grad_F2, norm_svd)
+    # plot_convergence_x(x0, grad_F, s, iterations, delta2, grad_F2)
+    # plot_cost_with_different_delta2(x0, grad_F2, F2, s, iterations, deltas2)
 
 def initialize_problem(A):
     def F(x): return np.dot((A @ x - b).T, A @ x - b)
@@ -95,6 +95,11 @@ def plot_convergence_cost(x0, grad_F, F, s, iterations, delta2, F2, grad_F2, cos
         cost_history_F2.append(F2(x_reg, delta2))
 
     plt.figure(figsize=(10, 6))
+
+    # cmap = plt.cm.get_cmap('viridis')
+    # plt.plot(cost_history_F, label='Descenso por gradiente', color=cmap(0.2))
+    # plt.plot(cost_history_F2, label='Descenso por gradiente con regularización L2', color=cmap(0.8))
+
     plt.plot(cost_history_F, label='Descenso por gradiente')
     plt.plot(cost_history_F2, label='Descenso por gradiente con regularización L2')
     plt.axhline(y=cost_svd, color='r', linestyle='--', label='Solución SVD')
@@ -189,12 +194,15 @@ def plot_cost_with_different_delta2(x0, grad_F2, F2, s, iterations, range_delta2
     plt.figure(figsize=(10, 6))
     plt.xscale("log")
     plt.yscale("log")
-    plt.bar(range_delta2, costs)
-    plt.xlabel('Valor de delta^2')
+    plt.bar(range_delta2, costs, width=range_delta2, color='skyblue', align='center')
+    plt.xlabel('Valor de $\delta^2$')
     plt.ylabel('Costo')
-    plt.title('Costo en función del valor de delta^2')
+    plt.title('Costo en función del valor de $\delta^2$')
     plt.grid(True)
     plt.show()
 
 if __name__ == '__main__':
+    plt.rcParams.update({'font.size': 16})
+    plt.rcParams.update({"xtick.labelsize":15,"ytick.labelsize":15})
+
     main()
